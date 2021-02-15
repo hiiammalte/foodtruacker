@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EventStore.Client.Grpc" Version="20.10.0" />
+    <PackageReference Include="EventStore.Client.Grpc.Operations" Version="20.10.0" />
+    <PackageReference Include="EventStore.Client.Grpc.ProjectionManagement" Version="20.10.0" />
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="20.10.0" />
+    <PackageReference Include="EventStore.Client.Grpc.UserManagement" Version="20.10.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\foodtruacker.SharedKernel\foodtruacker.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\foodtruacker.Domain\foodtruacker.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

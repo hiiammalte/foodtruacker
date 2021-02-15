@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="BoundedContexts\TourPricingManagement\EventHandlers\" />
+    <Folder Include="BoundedContexts\TourPricingManagement\QueryObjects\" />
+    <Folder Include="BoundedContexts\TourPricingManagement\Queries\" />
+    <Folder Include="BoundedContexts\TourPricingManagement\Projections\" />
+    <Folder Include="BoundedContexts\UserAccountManagement\EventHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="System.Security.Permissions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\foodtruacker.Domain\foodtruacker.Domain.csproj" />
+    <ProjectReference Include="..\foodtruacker.Framework\EventsourcingRepository\foodtruacker.EventSourcingRepository.csproj" />
+    <ProjectReference Include="..\foodtruacker.Framework\QueryRepository\foodtruacker.QueryRepository.csproj" />
+    <ProjectReference Include="..\foodtruacker.Framework\EmailService\foodtruacker.EmailService.csproj" />
+    <ProjectReference Include="..\foodtruacker.Framework\Authentication\foodtruacker.Authentication.csproj" />
+  </ItemGroup>
+
+</Project>

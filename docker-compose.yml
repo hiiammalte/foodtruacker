@@ -1,0 +1,56 @@
+version: "3.7"
+
+services:
+  foodtruacker-mysql-db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'foodtruacker'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - mysqldb_data:/var/lib/mysql
+
+  foodtruacker-mongo-db:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: 'foodtruacker'
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'rootpassword'
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
+  foodtruacker-eventstore-db:
+    image: eventstore/eventstore:latest
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_EXT_TCP_PORT=1113
+      - EVENTSTORE_EXT_HTTP_PORT=2113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - "1113:1113"
+      - "2113:2113"
+    volumes:
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
+  
+volumes:
+  mysqldb_data:
+  mongodb_data:
+  eventstore-volume-data:
+  eventstore-volume-logs:

@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.API", "foodtruacker.Framework\API\foodtruacker.API.csproj", "{969241A9-1EE1-475F-A917-C943E5F8FB90}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.Application", "foodtruacker.Application\foodtruacker.Application.csproj", "{E59D953E-4301-4339-8066-716E16BC16DA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25EDCD9A-D7BF-4489-BFBD-1487615FD1BE} = {25EDCD9A-D7BF-4489-BFBD-1487615FD1BE}
+		{CBEF47C7-E564-4C3A-9125-A3A10F765912} = {CBEF47C7-E564-4C3A-9125-A3A10F765912}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.Domain", "foodtruacker.Domain\foodtruacker.Domain.csproj", "{20C1654F-1D5B-498D-99CC-17BCD9A460CD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.SharedKernel", "foodtruacker.SharedKernel\foodtruacker.SharedKernel.csproj", "{015E28D8-F69A-4359-9C31-78F0DFBB37BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.QueryRepository", "foodtruacker.Framework\QueryRepository\foodtruacker.QueryRepository.csproj", "{25EDCD9A-D7BF-4489-BFBD-1487615FD1BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.EventSourcingRepository", "foodtruacker.Framework\EventsourcingRepository\foodtruacker.EventSourcingRepository.csproj", "{CBEF47C7-E564-4C3A-9125-A3A10F765912}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.AcceptanceTests", "foodtruacker.AcceptanceTests\foodtruacker.AcceptanceTests.csproj", "{43965444-68C8-4D2A-8103-3B46CA89B57F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.EmailService", "foodtruacker.Framework\EmailService\foodtruacker.EmailService.csproj", "{B8C6F49F-DB8E-4310-87C6-0CEE2D8E9D40}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foodtruacker.Authentication", "foodtruacker.Framework\Authentication\foodtruacker.Authentication.csproj", "{220BFEE2-81E3-4F35-9536-A7D4231B88F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{969241A9-1EE1-475F-A917-C943E5F8FB90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{969241A9-1EE1-475F-A917-C943E5F8FB90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{969241A9-1EE1-475F-A917-C943E5F8FB90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{969241A9-1EE1-475F-A917-C943E5F8FB90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E59D953E-4301-4339-8066-716E16BC16DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E59D953E-4301-4339-8066-716E16BC16DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E59D953E-4301-4339-8066-716E16BC16DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E59D953E-4301-4339-8066-716E16BC16DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C1654F-1D5B-498D-99CC-17BCD9A460CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C1654F-1D5B-498D-99CC-17BCD9A460CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C1654F-1D5B-498D-99CC-17BCD9A460CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C1654F-1D5B-498D-99CC-17BCD9A460CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{015E28D8-F69A-4359-9C31-78F0DFBB37BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{015E28D8-F69A-4359-9C31-78F0DFBB37BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{015E28D8-F69A-4359-9C31-78F0DFBB37BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{015E28D8-F69A-4359-9C31-78F0DFBB37BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25EDCD9A-D7BF-4489-BFBD-1487615FD1BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25EDCD9A-D7BF-4489-BFBD-1487615FD1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25EDCD9A-D7BF-4489-BFBD-1487615FD1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25EDCD9A-D7BF-4489-BFBD-1487615FD1BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBEF47C7-E564-4C3A-9125-A3A10F765912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBEF47C7-E564-4C3A-9125-A3A10F765912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBEF47C7-E564-4C3A-9125-A3A10F765912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBEF47C7-E564-4C3A-9125-A3A10F765912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43965444-68C8-4D2A-8103-3B46CA89B57F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43965444-68C8-4D2A-8103-3B46CA89B57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43965444-68C8-4D2A-8103-3B46CA89B57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43965444-68C8-4D2A-8103-3B46CA89B57F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8C6F49F-DB8E-4310-87C6-0CEE2D8E9D40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8C6F49F-DB8E-4310-87C6-0CEE2D8E9D40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8C6F49F-DB8E-4310-87C6-0CEE2D8E9D40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8C6F49F-DB8E-4310-87C6-0CEE2D8E9D40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{220BFEE2-81E3-4F35-9536-A7D4231B88F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{220BFEE2-81E3-4F35-9536-A7D4231B88F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{220BFEE2-81E3-4F35-9536-A7D4231B88F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{220BFEE2-81E3-4F35-9536-A7D4231B88F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02197D79-CD9F-41F4-9108-2109DB6B8BD4}
+	EndGlobalSection
+EndGlobal
