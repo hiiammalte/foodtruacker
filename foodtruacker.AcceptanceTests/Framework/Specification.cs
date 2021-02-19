@@ -1,5 +1,4 @@
 ﻿using foodtruacker.EventSourcingRepository.Repository;
-using foodtruacker.Authentication.Entities;
 using foodtruacker.Authentication.Repository;
 using foodtruacker.SharedKernel;
 using MediatR;
@@ -7,6 +6,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using foodtruacker.Application.Results;
+using System.Linq;
 
 namespace foodtruacker.AcceptanceTests.Framework
 {
@@ -22,10 +23,7 @@ namespace foodtruacker.AcceptanceTests.Framework
         protected IEnumerable<IDomainEvent> PublishedEvents;
         protected Exception CaughtException;
 
-        protected virtual IEnumerable<User> GivenIdentityUsers()
-            => new List<User>();
-
-        protected virtual IEnumerable<IDomainEvent> GivenEvents()
+        protected virtual ICollection<IDomainEvent> GivenEvents()
             => new List<IDomainEvent>();
 
         protected abstract TCommand When();
@@ -43,23 +41,23 @@ namespace foodtruacker.AcceptanceTests.Framework
             MockIdentityRepository.Setup(x => x.GenerateJWT(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync("token");
 
             MockEventSourcingRepository = new Mock<IEventSourcingRepository<TAggregateRoot>>();
-            MockEventSourcingRepository.Setup(x => x.FindByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(AggregateRoot);
-            MockEventSourcingRepository.Setup(x => x.SaveAsync(It.IsAny<TAggregateRoot>()))
-                .Callback<TAggregateRoot>((x) => AggregateRoot = x);
+            MockEventSourcingRepository.Setup(x => x.FindByIdAsync(It.IsAny<Guid>())).ReturnsAsync(() => AggregateRoot);
+            MockEventSourcingRepository.Setup(x => x.SaveAsync(It.IsAny<TAggregateRoot>())).Callback<TAggregateRoot>((x) => AggregateRoot = x);
 
             AggregateRoot = new TAggregateRoot();
-            AggregateRoot.LoadFromHistory(-1, GivenEvents());
+            AggregateRoot.LoadFromHistory(-1 + (long)GivenEvents()?.Count, GivenEvents());
 
-            try
+            TReturnType result = CommandHandler().Handle(When(), CancellationToken.None).Result;
+            if (typeof(TReturnType) == typeof(CommandResult))
             {
-                CommandHandler().Handle(When(), CancellationToken.None);
-                PublishedEvents = new List<IDomainEvent>(AggregateRoot.GetUncommittedChanges());
+                var commandResult = result as CommandResult;
+                if (commandResult.FailureReasons?.Any() == true)
+                {
+                    throw new Exception(string.Join(", ", commandResult.FailureReasons));
+                }
             }
-            catch (Exception exception)
-            {
-                CaughtException = exception;
-            }
+
+            PublishedEvents = new List<IDomainEvent>(AggregateRoot.GetUncommittedChanges());
         }
     }
 }

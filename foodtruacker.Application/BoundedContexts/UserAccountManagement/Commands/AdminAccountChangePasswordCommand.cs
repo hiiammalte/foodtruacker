@@ -40,8 +40,7 @@ namespace foodtruacker.Application.BoundedContexts.UserAccountManagement.Command
                 if (admin.Version != command.ExpectedVersion)
                     return CommandResult.NotFound(command.UserId);
 
-
-                if (!await _authRepository.IsCurrentPassword(command.UserId, command.CurrentPassword))
+                if (admin.Password != command.CurrentPassword)
                     return CommandResult.BusinessFail("Invalid Password.");
 
                 admin.ChangePassword(

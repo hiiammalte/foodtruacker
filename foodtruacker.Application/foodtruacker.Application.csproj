@@ -9,7 +9,6 @@
     <Folder Include="BoundedContexts\TourPricingManagement\QueryObjects\" />
     <Folder Include="BoundedContexts\TourPricingManagement\Queries\" />
     <Folder Include="BoundedContexts\TourPricingManagement\Projections\" />
-    <Folder Include="BoundedContexts\UserAccountManagement\EventHandlers\" />
   </ItemGroup>
 
   <ItemGroup>

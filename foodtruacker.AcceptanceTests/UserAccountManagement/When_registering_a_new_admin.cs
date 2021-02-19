@@ -3,7 +3,6 @@ using foodtruacker.Application.BoundedContexts.UserAccountManagement.Commands;
 using foodtruacker.Application.Results;
 using foodtruacker.Domain.BoundedContexts.UserAccountManagement.Aggregates;
 using foodtruacker.Domain.BoundedContexts.UserAccountManagement.Events;
-using foodtruacker.Authentication.Entities;
 using foodtruacker.SharedKernel;
 using foodtruacker.AcceptanceTests.Framework;
 using MediatR;
@@ -26,10 +25,7 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
                 MockIdentityRepository.Object
             );
 
-        protected override IEnumerable<User> GivenIdentityUsers()
-            => new List<User>();
-
-        protected override IEnumerable<IDomainEvent> GivenEvents()
+        protected override ICollection<IDomainEvent> GivenEvents()
             => new List<IDomainEvent>();
 
         protected override AdminAccountCreateCommand When()
@@ -43,7 +39,7 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
             };
         
         [Then]
-        public void Then_a_adminAccountCreatedEvent_will_be_published()
+        public void Then_a_AdminAccountCreatedEvent_will_be_published()
         {
             PublishedEvents.Last().As<AdminAccountCreatedEvent>().AggregateId.Should().NotBe(Guid.Empty);
             PublishedEvents.Last().As<AdminAccountCreatedEvent>().Name.ToString().Should().Be($"{_Firstname} {_Lastname}");

@@ -35,7 +35,7 @@ namespace foodtruacker.API.Controllers
             {
                 await _mediator.Send(new AdminAccountVerifyCommand
                 {
-                    Id = userId
+                    UserId = userId
                 });
                 
                 return Ok();
@@ -45,7 +45,7 @@ namespace foodtruacker.API.Controllers
             {
                 await _mediator.Send(new CustomerAccountVerifyCommand
                 {
-                    Id = userId
+                    UserId = userId
                 });
 
                 return Ok();

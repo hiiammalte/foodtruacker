@@ -1,15 +1,12 @@
 # foodtruacker - Implementation of DDD, CQRS and Event Sourcing
 
-This event-driven project utilizes priciples, frameworks and achitectures — all centered around the idea of enhancing maintainability when dealing with systems reflecting complex business domains. The Web API is build upon Microsoft's ASP.NET Core framework and implements Domain-driven Design, as well as the CQRS and Event Sourcing patterns. A fictional business case, which is the result of an event storming workshop, lays the foundation of this project by providing a complex business domain:
-An independent food truck owner wants to go on tour and is in need of a software, that lets him/her publish tour stops, receive and manage new stop requests and keep his followers up-to-date.
+This event-driven project utilizes priciples, frameworks and achitectures — all centered around the idea of enhancing maintainability when dealing with systems reflecting complex business domains. The application's Web API is build upon Microsoft's ASP.NET Core framework and implements Domain-driven Design, as well as the CQRS and Event Sourcing patterns. A fictional business case lays the foundation of this project and is the result of an event storming workshop.
 
 _Please note:_ The fictional business domain introduced to this project is heavily simplified and should only be seen as a provider of relatable use cases.
 
 ## Motivation
 
 Since it is not always best to use CRUD-operations and POCO-objects in projects with rather complex business domains, I decided to create this project as a practical implemention of my research on — and interest in — the Domain-driven Design (DDD) approach of developing software.
-
-I added 
 
 Since the fictional business case intoduced to this project is heavily event-driven, I decided to also implement the CQRS and Event Sourcing patterns. Both caught my attention while doing the research for this project and go well together with DDD.
 
@@ -21,15 +18,15 @@ Since the fictional business case intoduced to this project is heavily event-dri
 - Domain-driven Design (DDD)
 - xUnit-based Test-driven Design (TDD)
 - Hexagonal architecture a.k.a. Ports & Adapters (Domain, Application and Framework Layers)
-- CQRS implementation on Commands and Queries. Projections to distinct NoSQL-Database, keeping Command database (EventStoreDB) and Query database (MongoDB) in sync
-- MediatR implementation (Request- and Notification-Handling, Pipeline-Behaviour for Logging, Authentication, ...)
+- CQRS implementation on Commands, Queries and Projections
+- MediatR implementation (Request- and Notification-Handling, Pipeline-Behaviour for Logging, Metrics and Authentication)
 - Swagger Open API endpoint
-- Dockerfile for environmental setup
-- EventStoreDB Repository and custom Client
-- MongoDB Repository
+- Dockerfile and Docker Compose (YAML) file for environmental setup
+- EventStoreDB Repository and custom Client for storing of events
+- MongoDB Repository for performance-optimized querying
 - Authentication Service based on ASP.NET Core Idenity
 - Email Service for account verification
-- Shared Kernel class library implementation for DDD
+- Shared Kernel class library implementation for DDD & Event Sourcing
 
 
 ## Introduction

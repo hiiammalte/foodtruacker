@@ -11,7 +11,7 @@ namespace foodtruacker.Application.BoundedContexts.UserAccountManagement.Command
 {
     public class AdminAccountVerifyCommand : IRequest<CommandResult>
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class AdminAccountVerifyCommandHandler : IRequestHandler<AdminAccountVerifyCommand, CommandResult>
@@ -26,14 +26,14 @@ namespace foodtruacker.Application.BoundedContexts.UserAccountManagement.Command
         {
             try
             {
-                var admin = await _repository.FindByIdAsync(command.Id);
+                var admin = await _repository.FindByIdAsync(command.UserId);
                 if (admin is null)
-                    return CommandResult.NotFound(command.Id);
+                    return CommandResult.NotFound(command.UserId);
 
                 admin.VerifyAccount();
 
                 await _repository.SaveAsync(admin);
-                return CommandResult.Success(command.Id);
+                return CommandResult.Success(command.UserId);
             }
             catch (DomainException ex)
             {

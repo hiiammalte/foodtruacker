@@ -11,13 +11,13 @@ namespace foodtruacker.Application.BoundedContexts.UserAccountManagement.Command
 {
     public class CustomerAccountVerifyCommand : IRequest<CommandResult>
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
     }
 
-    public class CustomerAccountVerifyEmailCommandHandler : IRequestHandler<CustomerAccountVerifyCommand, CommandResult>
+    public class CustomerAccountVerifyCommandHandler : IRequestHandler<CustomerAccountVerifyCommand, CommandResult>
     {
         private readonly IEventSourcingRepository<Customer> _repository;
-        public CustomerAccountVerifyEmailCommandHandler(IEventSourcingRepository<Customer> repository)
+        public CustomerAccountVerifyCommandHandler(IEventSourcingRepository<Customer> repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
@@ -26,9 +26,9 @@ namespace foodtruacker.Application.BoundedContexts.UserAccountManagement.Command
         {
             try
             {
-                var customer = await _repository.FindByIdAsync(command.Id);
+                var customer = await _repository.FindByIdAsync(command.UserId);
                 if (customer is null)
-                    return CommandResult.NotFound(command.Id);
+                    return CommandResult.NotFound(command.UserId);
 
                 customer.VerifyAccount();
 

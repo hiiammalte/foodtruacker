@@ -3,7 +3,6 @@ using foodtruacker.Application.BoundedContexts.UserAccountManagement.Commands;
 using foodtruacker.Application.Results;
 using foodtruacker.Domain.BoundedContexts.UserAccountManagement.Aggregates;
 using foodtruacker.Domain.BoundedContexts.UserAccountManagement.Events;
-using foodtruacker.Authentication.Entities;
 using foodtruacker.SharedKernel;
 using foodtruacker.AcceptanceTests.Framework;
 using MediatR;
@@ -26,10 +25,7 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
                 MockIdentityRepository.Object
             );
 
-        protected override IEnumerable<User> GivenIdentityUsers()
-            => new List<User>();
-
-        protected override IEnumerable<IDomainEvent> GivenEvents()
+        protected override ICollection<IDomainEvent> GivenEvents()
             => new List<IDomainEvent>();
 
         protected override CustomerAccountCreateCommand When()
