@@ -56,6 +56,176 @@ A system of abstractions that describes the processes and policies of a business
 Words and statements for certain elements of the business domain. In order to guard again misconception, all team members should adopt certain terms, typically those used by the domain experts.
 
 #### ***Bounded Context***
-A conceptual boundary within which a particular domain model is defined and applicable. This typically represents a subsystem or a field of work. It is mainly a linguistic delimitation, with each bounded context having its own Ubiquitous Language.
-E.g.: Customer Management where a user is called „customer“ and 
+A conceptual boundary within which a particular domain model is defined and applicable. This typically represents a subsystem or a field of work. It is mainly a linguistic delimitation, with each bounded context having its own Ubiquitous Language.\
+E.g.: Customer Management where a user is called „customer“.
 
+Eric Evans’ book further differentiates certain parts of the domain model. To name a few:
+
+#### ***Entity***
+An object which is defined by its identity rather than its attributes.\
+E.g.: A person will always remain the same person, no matter the choice of jacket, hair color or language spoken at a certain moment.
+
+#### ***Value Object***
+An object which is defined solely by the value of its attributes. Value Objects are immutable and do not have a unique identity. Value Objects can be replaced by other Value Objects with the same attributes.\
+E.g.: When focussing on a person, a broken pair of sunglasses can easily be replaced with a new, equally looking pair of sunglasses.
+
+#### ***Aggregate***
+A cluster of one or more Entities and optional Value Objects, unified to be a single transactional unit. One Entity will form the base of the Aggregate and is thereby declared *Aggregate root*. All its collaborating Entities’ and Value Objects’ properties may only be accessible through this single base Entity. An Aggregate must always be in a consistent state. In object-oriented programming, this is typically done by using private setters and protected getters.
+E.g: In a car sales context, one car (Entity) is defined by its vehicle identification number. This car might have four wheels (Value Objects), which might need to be replaced after a certain time.
+
+#### ***Domain Event***
+An object that is created as a result of activity within the Domain Model. It is used to hold and forward information related to this activity. Domain Events are typically created for those activities the domain experts consider relevant.
+
+### Hexagonal architecture (Ports & Adapters)
+
+An architecture pattern used in software design, proposed by Alistair Cockburn in 2005. The pattern aims to achieve a high degree of maintainability and describes an application in three layers. Each layer communicate with the adjacent layer(s) using interfaces (ports) and implementations (adapters):
+
+1. The *Domain Layer* is the inner-most layer. The Domain Model resides here. The Domain Layer defines all the business logic of the application. Everything on how the business logic works is defined in abstract terms, to then be implemented by the adjacent *Application Layer*. Domain-driven Design is a common choice for defining the business logic.
+2. The *Application Layer* is the „glue“ between the business logic and the specific details of how the application communicates with the outside world. It adapts requests from the *Framework Layer* to the *Domain Layer* and — in return — translates the received results from the *Domain Layer* into whatever format is expected by the *Framework Layer*. Some additional responsibilities of the *Application Layer* are to e.g. orchestrate the use of the entities found in the *Domain Layer*, to check incoming data for consistency and to dispatch Domain Events raised in the *Domain Layer*.
+3. The *Framework Layer* is the outer-most layer. It doesn’t know anything on how the application works but is full of concrete implementation details for all the external interfaces that the application deals with. On the one hand, the *Framework Layer* adapts requests from the outside (primary actors). For example, it might be responsible for accepting HTTP requests. On the other hand, it might also implement services driven by the application (secondary actors). These could be an external Database, third party cloud- or email-services or even other services within the system.
+
+The key rule in this architecture pattern is that dependencies can only point inwards. Nothing in an inner circle can know anything at all about something in an outer circle. Any dependencies willing to pointing outwards, e.g calling a database from the *Application Layer*, need to be instantiated via inversion of Control (IoC) or Dependency Injection (DI).
+
+### CQRS using MediatR (a pre-built messaging framework)
+
+CQRS stands for Command/Query Responsibility Segregation and was first described by Greg Young in 2010. It is based upon the Command Query Separation (CQS) principle and allows for separation of read and write operations. CQS states:
+
+1. Commands are utilized to modify the system, but should not return any data.
+2. Queries are utilized to read a system's data, but should should not modify state.
+
+The improvement from CQRS over CQS is that those commands and queries are treated as models rather than methods. These models can be dispatched as objects at one point, to then be handled by their required, respective handlers at another point in the system, each returning their response models for clear segregation of each action.
+
+The mediator pattern allows to implement Command/Queries and Handlers loosely coupled, utilizing a mediator object. Objects no longer communicate directly with each other, but instead communicate through the mediator.
+
+The MediatR framework is an open source implementation of the mediator pattern, created by Jimmy Bogard. It will be utilized in this project for communication between the Framework Layer and the Application Layer. It will also be used for projecting data from the Command database to the Query database.
+
+### Event Sourcing
+
+An architectural design pattern for storing every change in the state of an application, rather than  storing just the current state of the data in a domain. This pattern was introduced by Greg Young and has since seen numerous adoptions.
+
+The pattern intends to capture every change to the state of an application as an event object. These event object are then stored, in the sequence of occurrence, in an append only manner. This not only allows for the recreation of the current state of an object over the sequence of events that have happened so far, but ultimately allows to go back in time and recreate the objects state for any given time.
+
+A bank account can be a good example of the Event Sourcing principle. Every time money is withdrawn or deposited, instead of just updating the current balance, the amount of change is recorded. The current balance is then calculated by going over the sequence of events, with their corresponding information on how much money was withdrawn or deposited each time.
+
+Event Sourcing plays well with Domain-driven Design, since it is a great fit for storing Domain Events, triggered by the Domain Model with every change request.
+
+Event Sourcing also greatly benefits from CQRS. Instead of having to make a Query against the Event Sourcing database, which would have to go through all recorded events related to the object being requested in order to recreate the current state, this Query can be made against a dedicated Query Database. This Query Database gets updated by its own event handlers, listening to the same events being dispatched right after being appended to the Event Sourcing Database. These updating processes are called Projections.
+
+This separation of databases also lays ground for a huge potential in scalability and performance optimization. Multiple instances of the Query database can be created and hold in sync simple by having their event handlers listening for the events being dispatched from the Event Sourcing Database Client right after a relevant change to the state of an application occurred. The choice of database type as well as the degree of data-denormalization, optimized per query, can greatly enhance performance.
+
+This constant updating of the read model can either happen synchronously or asynchronously. The latter comes at the cost of eventual consistency, with the read model being out of sync with the write model for a tiny time gap (usually milliseconds).
+
+### Shared Kernel
+
+A common library for the Domain Layer, which contains common Domain-driven Design specific base classes, Domain Entities, Value Objects, etc. which are shared across Bounded Contexts.
+
+## Getting started
+
+To get this project up and running as is, feel free to follow these steps:
+
+### Prerequisites
+
+- Install the .NET 5 or above SDK
+- Install Visual Studio 2019 v16.x or above
+- Install Docker Desktop
+
+### Setup
+
+1. Clone this repository
+2. Make sure Docker Desktop is running
+3. At the root directory, restore required packages by running:
+
+```
+dotnet restore
+```
+
+4. Still at the root directory, start Docker Containers from YAML file by running:
+
+```
+docker-compose
+```
+
+5. Navigate into the `\foodtruacker.Framework\Authentication` directory and run the following command:
+
+```
+dotnet ef database update
+```
+
+6. Next, build the solution by running:
+
+```
+dotnet build
+```
+
+7. Once done, launch the application by running:
+
+```
+dotnet run
+```
+
+8. Launch https://localhost:5001/swagger/index.html in your browser to view the Swagger documentation of your API
+
+## Technologies
+
+This project utilizes the following Technologies / NuGet packages:
+- .NET 5
+- Docker
+- MediatR
+- EventStoreDB
+- MongoDB
+- ASP.NET Core Indentity
+- EF Core
+- xUnit
+- Moq
+- FluentAssertions
+- Swashbuckle
+- Serilog
+
+## Resources / Recommended Reading
+
+Alberto Brandolini:\
+https://www.eventstorming.com
+
+Vaughn Vernon:\
+https://dddcommunity.org/wp-content/uploads/files/pdf_articles/Vernon_2011_1.pdf \
+https://dddcommunity.org/wp-content/uploads/files/pdf_articles/Vernon_2011_2.pdf \
+https://dddcommunity.org/wp-content/uploads/files/pdf_articles/Vernon_2011_3.pdf
+
+Alistair Cockburn:\
+https://web.archive.org/web/20180822100852/http://alistair.cockburn.us/Hexagonal+architecture
+
+Robert C. Martin (Uncle Bob):\
+https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+
+Cesar de la Torre, Bill Wagner, Mike Rousos:\
+https://docs.microsoft.com/en-us/dotnet/architecture/microservices/
+
+Greg Young\
+https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf \
+https://cqrs.wordpress.com/documents/building-event-storage/ \
+https://msdn.microsoft.com/en-us/library/jj591559.aspx
+
+Martin Fowler:\
+https://www.martinfowler.com/bliki/CQRS.html
+
+Jimmy Bogard:\
+https://github.com/jbogard/MediatR \
+https://www.youtube.com/watch?v=SUiWfhAhgQw
+
+Domain-driven Design:\
+https://dddcommunity.org \
+https://thedomaindrivendesign.io \
+https://dotnetcodr.com/2013/09/12/a-model-net-web-service-based-on-domain-driven-design-part-1-introduction/ \
+https://dotnetcodr.com/2015/10/22/domain-driven-design-with-web-api-extensions-part-1-notifications/
+
+Hexagonal Architecture:\
+https://fideloper.com/hexagonal-architecture \
+https://herbertograca.com/2017/09/14/ports-adapters-architecture/
+
+## Credits
+
+http://www.andreavallotti.tech/en/2018/01/event-sourcing-and-cqrs-in-c/ \
+https://www.exceptionnotfound.net/real-world-cqrs-es-with-asp-net-and-redis-part-1-overview/ \
+https://buildplease.com/pages/fpc-1/ \
+https://dotnetcoretutorials.com/2019/04/30/the-mediator-pattern-in-net-core-part-1-whats-a-mediator/ \
+https://itnext.io/why-and-how-i-implemented-cqrs-and-mediator-patterns-in-a-microservice-b07034592b6d
