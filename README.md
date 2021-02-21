@@ -39,6 +39,8 @@ The workshop consists of a group of people with different expertise using colore
 
 The aim of this workshop is to have its participants learn from each other, reveal and refute misconceptions and, e.g. in this GitHub project, do the groundwork for the development of an event based software solution reflecting a correlating business domain.
 
+![Event Storming Illustration](https://github.com/hiiammalte/foodtruacker/blob/master/illustrations/Foodtruacker%20Event%20Storming.jpg?raw=true "Result of Event Storming Session")
+
 ### Domain-driven Design (DDD)
 
 An approach to software development that centers the development on programming a domain model that has a rich understanding of the processes and rules of a correlating business domain. The term „Domain-driven Design“ was coined by Eric Evans in his book of the same title.
@@ -86,6 +88,8 @@ An architecture pattern used in software design, proposed by Alistair Cockburn i
 
 The key rule in this architecture pattern is that dependencies can only point inwards. Nothing in an inner circle can know anything at all about something in an outer circle. Any dependencies willing to pointing outwards, e.g calling a database from the *Application Layer*, need to be instantiated via inversion of Control (IoC) or Dependency Injection (DI).
 
+![Architecture Illustration](https://github.com/hiiammalte/foodtruacker/blob/master/illustrations/Foodtruacker%20Architecture.jpg?raw=true "Hexagonal architecture")
+
 ### CQRS using MediatR (a pre-built messaging framework)
 
 CQRS stands for Command/Query Responsibility Segregation and was first described by Greg Young in 2010. It is based upon the Command Query Separation (CQS) principle and allows for separation of read and write operations. CQS states:
@@ -98,6 +102,8 @@ The improvement from CQRS over CQS is that those commands and queries are treate
 The mediator pattern allows to implement Command/Queries and Handlers loosely coupled, utilizing a mediator object. Objects no longer communicate directly with each other, but instead communicate through the mediator.
 
 The MediatR framework is an open source implementation of the mediator pattern, created by Jimmy Bogard. It will be utilized in this project for communication between the Framework Layer and the Application Layer. It will also be used for projecting data from the Command database to the Query database.
+
+![MediatR Implementation Illustration](https://github.com/hiiammalte/foodtruacker/blob/master/illustrations/Foodtruacker%20MediatR%20CQRS.jpg?raw=true "CQRS using MediatR")
 
 ### Event Sourcing
 
