@@ -36,7 +36,8 @@ namespace foodtruacker
             services.AddControllers();
             services.AddHttpContextAccessor();
             services.AddSwaggerDocumentation();
-            
+
+            services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
             services.AddJwtBasedAuth(Configuration.GetSection("JwtSettings").Get<JwtSettings>());
             services.AddEventStoreDbService(Configuration.GetSection("EventStoreDb").Get<EventStoreDbSettings>());
             services.AddIdenityServices(Configuration.GetSection("MySqlDb").Get<MySqlSettings>());
@@ -77,7 +78,7 @@ namespace foodtruacker
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseJwtBasedAuth();
 
             app.UseEndpoints(endpoints =>
             {

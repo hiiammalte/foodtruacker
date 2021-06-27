@@ -1,8 +1,10 @@
 ﻿using foodtruacker.Application.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace foodtruacker.API.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public abstract class ApiController : ControllerBase

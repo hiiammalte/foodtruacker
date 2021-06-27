@@ -15,6 +15,7 @@ namespace foodtruacker.API.Extensions
         {
             services
                 .AddScoped<ITokenService, JwtTokenService>()
+                .AddHttpContextAccessor()
                 .AddAuthorization()
                 .AddAuthentication(options =>
                 {
@@ -25,11 +26,16 @@ namespace foodtruacker.API.Extensions
                 .AddJwtBearer(options =>
                 {
                     options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
                     {
+                        ValidateIssuer = true,
                         ValidIssuer = jwtSettings.Issuer,
+                        ValidateAudience = true,
                         ValidAudience = jwtSettings.Issuer,
+                        ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                        ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
                     };
                 });

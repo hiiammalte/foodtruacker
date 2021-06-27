@@ -4,6 +4,7 @@ using foodtruacker.Application.BoundedContexts.UserAccountManagement.Queries;
 using foodtruacker.Application.BoundedContexts.UserAccountManagement.QueryObjects;
 using foodtruacker.Application.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace foodtruacker.API.Controllers
 {
+    
+    [Authorize(Roles = "Admin, Customer")]
     public class CustomersController : ApiController
     {
         private readonly IMediator _mediator;
@@ -20,6 +23,7 @@ namespace foodtruacker.API.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllCustomersInfo()
         {
@@ -47,6 +51,7 @@ namespace foodtruacker.API.Controllers
             };
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> RegisterCustomer(CreateCustomerAccountDTO dto)
         {
@@ -66,6 +71,7 @@ namespace foodtruacker.API.Controllers
             };
         }
 
+        [Authorize(Roles = "CUSTOMER")]
         [HttpPatch]
         [Route("{id}/email")]
         public async Task<IActionResult> ChangeEmail(UpdateEmailAddressDTO dto, Guid id)
@@ -85,6 +91,7 @@ namespace foodtruacker.API.Controllers
             };
         }
 
+        [Authorize(Roles = "CUSTOMER")]
         [HttpPatch]
         [Route("{id}/password")]
         public async Task<IActionResult> ChangePassword(UpdatePasswordDTO dto, Guid id)

@@ -4,12 +4,14 @@ using foodtruacker.Application.BoundedContexts.UserAccountManagement.Queries;
 using foodtruacker.Application.BoundedContexts.UserAccountManagement.QueryObjects;
 using foodtruacker.Application.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 namespace foodtruacker.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdministrationController : ApiController
     {
         private readonly IMediator _mediator;
@@ -20,6 +22,7 @@ namespace foodtruacker.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("Register")]
         public async Task<IActionResult> RegisterAdmin([FromBody] CreateAdminAccountDTO dto)
         {
@@ -42,9 +45,9 @@ namespace foodtruacker.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetAdminInfo(Guid Id)
+        public async Task<IActionResult> GetAdminInfo(Guid id)
         {
-            var query = new GetAdminInfoQuery(Id);
+            var query = new GetAdminInfoQuery(id);
 
             AdminInfo result = await _mediator.Send(query);
             return result switch

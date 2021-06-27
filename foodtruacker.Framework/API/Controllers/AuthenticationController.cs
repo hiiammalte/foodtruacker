@@ -24,6 +24,7 @@ namespace foodtruacker.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("ConfirmEmail")]
         public async Task<IActionResult> VerifyEmailAddress(Guid userId, string token)
         {
@@ -55,6 +56,7 @@ namespace foodtruacker.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginCredentialsDTO dto)
         {
