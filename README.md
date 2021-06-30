@@ -74,7 +74,7 @@ This project consists of one executable Web API application and several function
     │   │   └── ...
     │   └── Exceptions                          # General domain and business logic exceptions
     ├── foodtruacker.EmailService
-    │   └── Services                            # Interface and corresponding service related to sending emails (not functional)
+    │   └── Services                            # Interface and corresponding service related to sending emails (dummy - writes output into logs)
     ├── foodtruacker.EventSourcingRepository
     │   ├── Client                              # Interface and corresponding service for reading and appending events from/to EventStoreDB
     │   ├── Configuration                       # POCO for database communication
@@ -233,7 +233,7 @@ dotnet run
 
 8. Launch https://localhost:5001/swagger/index.html in your browser to view the Swagger documentation of your API.
 
-9. Use Swagger, Postman or any other application to send a POST-request to https://localhost:5001/api/Administration/Register to register your inital admin account. Send the following object:
+9. Use Swagger, Postman or any other application to send a POST-request to https://localhost:5001/api/Administration/Register to register your initial admin account. Send the following object:
 ```
 {
     "email": "...",
