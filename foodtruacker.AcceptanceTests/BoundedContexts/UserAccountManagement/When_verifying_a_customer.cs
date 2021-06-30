@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace foodtruacker.AcceptanceTests.UserAccountManagement
+namespace foodtruacker.AcceptanceTests.BoundedContexts.UserAccountManagement
 {
     public class When_verifying_a_customer : Specification<Customer, CustomerAccountVerifyCommand, CommandResult>
     {

@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace foodtruacker.AcceptanceTests.UserAccountManagement
+namespace foodtruacker.AcceptanceTests.BoundedContexts.UserAccountManagement
 {
     public class When_verifying_an_admin : Specification<Admin, AdminAccountVerifyCommand, CommandResult>
     {

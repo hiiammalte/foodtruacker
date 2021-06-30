@@ -28,6 +28,68 @@ Since the fictional business case intoduced to this project is heavily event-dri
 - Email Service for account verification
 - Shared Kernel class library implementation for DDD & Event Sourcing
 
+## Overview
+This project consists of one executable Web API application and several functional components, each provided via class libraries. The code is organized by namespaces. In ASP.NET Core applications created in Visual Studio the namespaces, by default, are automatically created from the projects' folder structure. See the below diagram for a grasp overview of the folder (and namespace) structure of this project:
+
+    .
+    ├── foodtruacker.AcceptanceTests
+    │   ├── BoundedContexts                     # Tests - organized by bounded context (see Domain-driven Design)
+    │   │   ├── UserAccountManagement           # All tests related to user account managment
+    │   │   └── ...
+    │   └── Framework                           # XUnit- and Moq-based test setup based on given-when-then priciple
+    ├── foodtruacker.API
+    │   ├── Controllers                         # API Endpoints - request handlers are invoking MediatR Commands and Queries
+    │   ├── DTOs                                # DTOs to be used in API requests to manipulate data (commands)
+    │   ├── Extensions                          # Bundled services to be registered in ConfigureServices() function in Startup.cs file 
+    │   ├── Middleware                          # Middleware functions to be injected into Configure() pipeline in Startup.cs file
+    │   ├── appsettings.json                    # Application configuration file used to store configuration settings such as database connections strings
+    │   ├── Dockerfile                          # Instructions for building a Docker image from the foodtruacker application
+    │   ├── Program.cs                          # Entry point of the application
+    │   └── Startup.cs                          # Configuration class used for registering services and injecting middleware into the application pipeline
+    ├── foodtruacker.Application
+    │   ├── BoundedContexts                     # CQRS logic - organized by bounded context (see Domain-driven Design)
+    │   │   ├── UserAccountManagement           # All classes and functions related to user account managment
+    │   │   │   ├── Commands                    # MediatR based Commands and Command-handlers - communicating with Event Sourcing database
+    │   │   │   ├── EventHandlers               # MediatR based Event-handlers for Notifications - used for triggering external services
+    │   │   │   ├── Projections                 # MediatR based Event-handlers for Notifications - used for updating Query database
+    │   │   │   ├── Queries                     # MediatR based Queries and Query-handlers - communicating with Query database
+    │   │   │   └── QueryObjects                # Response objects used in API requests to read data (queries)
+    │   │   └── ...
+    │   ├── Pipelines                           # MediatR pipeline behaviours (middleware)
+    │   └── Results                             # Wrapper classes and error definitions used for handling commands
+    ├── foodtruacker.Authentication
+    │   ├── Configuration                       # POCOs for roles, JWT, database communication
+    │   ├── Entities                            # User and Role entities required by Identity ASP.NET Core
+    │   ├── Exceptions                          # Exceptions related to authentication
+    │   ├── Migrations                          # Entity Framework migration scripts for using Identity ASP.NET Core with MySQL-database
+    │   ├── Repository                          # DbContext, Repository Interface and corresponding service for Identity ASP.NET Core 
+    │   └── Services                            # Interfaces and corresponding services related to authentication (e.g. JWT)
+    ├── foodtruacker.Domain
+    │   ├── BoundedContexts                     # Domain objects - organized by bounded context (see Domain-driven Design)
+    │   │   ├── UserAccountManagement           # All objects and exceptions related to user account managment
+    │   │   │   ├── Aggregates                  # Aggregates with internal business logic (see Domain-driven Design)
+    │   │   │   ├── Events                      # Domain-related events (see Event Sourcing)
+    │   │   │   ├── Exceptions                  # Exceptions related to business logic
+    │   │   │   └── ValueObjects                # Value Objects with internal business logic (see Domain-driven Design)
+    │   │   └── ...
+    │   └── Exceptions                          # General domain and business logic exceptions
+    ├── foodtruacker.EmailService
+    │   └── Services                            # Interface and corresponding service related to sending emails (not functional)
+    ├── foodtruacker.EventSourcingRepository
+    │   ├── Client                              # Interface and corresponding service for reading and appending events from/to EventStoreDB
+    │   ├── Configuration                       # POCO for database communication
+    │   └── Repository                          # Repository interface and corresponding service for custom Event Sourcing Client (see above)
+    ├── foodtruacker.QueryRepository
+    │   ├── Configuration                       # POCO for database communication
+    │   └── Repository                          # Repository interface and corresponding service for MongoDB
+    └── foodtruacker.SharedKernel
+        ├── IAggregateRoot.cs                   # Interface for base functionality of an aggregate - used for recreation of aggregates from EventStoreDB (via reflection)
+        ├── AggregateRoot.cs                    # Abstract class providing base functionality of an aggregate - inherits IAggregateRoot, is derived by all aggregates
+        ├── IDomainEvent.cs                     # Interface for base functionality of an domain-related event - used for recreation of events stored in EventStoreDB (via reflection)
+        ├── DomainEvent.cs                      # Abstract class providing base functionality of an domain-related event - inherits IDomainEvent, is derived by all domain-related events
+        ├── IValueObject.cs                     # Interface for base functionality of a value object (see Domain-driven Design)
+        ├── ValueObject.cs                      # Abstract class providing functionality for comparing value objects - inherits IValueObjects, is derived by all value objects
+        └── ...
 
 ## Introduction
 
@@ -169,7 +231,24 @@ dotnet build
 dotnet run
 ```
 
-8. Launch https://localhost:5001/swagger/index.html in your browser to view the Swagger documentation of your API
+8. Launch https://localhost:5001/swagger/index.html in your browser to view the Swagger documentation of your API.
+
+9. Use Swagger, Postman or any other application to send a POST-request to https://localhost:5001/api/Administration/Register to register your inital admin account. Send the following object:
+```
+{
+    "email": "...",
+    "password": "...",
+    "firstname": "...",
+    "surname": "...",
+    "secretProductKey": "12345"
+}
+```
+
+10. Look into the console application or whichever output is re-configured for the application's logs. After any successful registration of a user, there should be an email-verification link - provided by the EmailService - written into the logs. Copy and paste this url into your browser and hit enter to complete registration. Feel free to change or build upon this unproper implementation of an email service ;-)
+
+11. You are all set. Login next.
+
+12. Launch http://localhost:2113/ in your browser to view the EventStoreDB GUI. Open the "Stream Browser" tab to see all stored events.
 
 ## Technologies
 

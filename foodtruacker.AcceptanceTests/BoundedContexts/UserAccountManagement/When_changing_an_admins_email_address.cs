@@ -11,17 +11,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace foodtruacker.AcceptanceTests.UserAccountManagement
+namespace foodtruacker.AcceptanceTests.BoundedContexts.UserAccountManagement
 {
-    public class When_changing_a_customers_email_address : Specification<Customer, CustomerAccountChangeEmailCommand, CommandResult>
+    public class When_changing_an_admins_email_address : Specification<Admin, AdminAccountChangeEmailCommand, CommandResult>
     {
         private readonly Guid _UserId = Guid.NewGuid();
         private readonly string _NewEmail = "changed@user.com";
         private readonly string _Firstname = "Test";
         private readonly string _Lastname = "User";
 
-        protected override IRequestHandler<CustomerAccountChangeEmailCommand, CommandResult> CommandHandler()
-            => new CustomerAccountChangeEmailCommandHandler(
+        protected override IRequestHandler<AdminAccountChangeEmailCommand, CommandResult> CommandHandler()
+            => new AdminAccountChangeEmailCommandHandler(
                 MockEventSourcingRepository.Object,
                 MockIdentityRepository.Object
             );
@@ -29,7 +29,7 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
         protected override ICollection<IDomainEvent> GivenEvents()
             => new List<IDomainEvent>()
             {
-                new CustomerAccountCreatedEvent
+                new AdminAccountCreatedEvent
                 (
                     userId: _UserId,
                     email: (EmailAddress)EmailAddress.Create("test@user.com").ValueObject,
@@ -38,8 +38,8 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
                 )
             };
 
-        protected override CustomerAccountChangeEmailCommand When()
-            => new CustomerAccountChangeEmailCommand
+        protected override AdminAccountChangeEmailCommand When()
+            => new AdminAccountChangeEmailCommand
             {
                 UserId = _UserId,
                 NewEmail = _NewEmail,
@@ -47,11 +47,11 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
             };
 
         [Then]
-        public void Then_a_CustomerAccountChangedEmailEvent_will_be_published()
+        public void Then_a_AdminAccountChangedEmailEvent_will_be_published()
         {
-            PublishedEvents.Last().As<CustomerAccountChangedEmailEvent>().AggregateId.Should().Be(_UserId);
-            PublishedEvents.Last().As<CustomerAccountChangedEmailEvent>().Name.ToString().Should().Be($"{_Firstname} {_Lastname}");
-            PublishedEvents.Last().As<CustomerAccountChangedEmailEvent>().Email.ToString().Should().Be(_NewEmail);
+            PublishedEvents.Last().As<AdminAccountChangedEmailEvent>().AggregateId.Should().Be(_UserId);
+            PublishedEvents.Last().As<AdminAccountChangedEmailEvent>().Name.ToString().Should().Be($"{_Firstname} {_Lastname}");
+            PublishedEvents.Last().As<AdminAccountChangedEmailEvent>().Email.ToString().Should().Be(_NewEmail);
         }
     }
 }

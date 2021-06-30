@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace foodtruacker.AcceptanceTests.UserAccountManagement
+namespace foodtruacker.AcceptanceTests.BoundedContexts.UserAccountManagement
 {
     public class When_registering_a_new_admin : Specification<Admin, AdminAccountCreateCommand, CommandResult>
     {

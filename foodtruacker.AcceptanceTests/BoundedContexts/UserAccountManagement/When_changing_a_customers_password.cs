@@ -11,16 +11,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace foodtruacker.AcceptanceTests.UserAccountManagement
+namespace foodtruacker.AcceptanceTests.BoundedContexts.UserAccountManagement
 {
-    public class When_changing_an_admins_password : Specification<Admin, AdminAccountChangePasswordCommand, CommandResult>
+    public class When_changing_a_customers_password : Specification<Customer, CustomerAccountChangePasswordCommand, CommandResult>
     {
         private readonly Guid _UserId = Guid.NewGuid();
         private readonly string _CurrentPassword = "123456";
         private readonly string _NewPlainPassword = "654321";
 
-        protected override IRequestHandler<AdminAccountChangePasswordCommand, CommandResult> CommandHandler()
-            => new AdminAccountChangePasswordCommandHandler(
+        protected override IRequestHandler<CustomerAccountChangePasswordCommand, CommandResult> CommandHandler()
+            => new CustomerAccountChangePasswordCommandHandler(
                 MockEventSourcingRepository.Object,
                 MockIdentityRepository.Object
             );
@@ -28,7 +28,7 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
         protected override ICollection<IDomainEvent> GivenEvents()
             => new List<IDomainEvent>()
             {
-                new AdminAccountCreatedEvent
+                new CustomerAccountCreatedEvent
                 (
                     userId: _UserId,
                     email: (EmailAddress)EmailAddress.Create("test@user.com").ValueObject,
@@ -37,8 +37,8 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
                 )
             };
 
-        protected override AdminAccountChangePasswordCommand When()
-            => new AdminAccountChangePasswordCommand
+        protected override CustomerAccountChangePasswordCommand When()
+            => new CustomerAccountChangePasswordCommand
             {
                 UserId = _UserId,
                 CurrentPassword = _CurrentPassword,
@@ -47,12 +47,12 @@ namespace foodtruacker.AcceptanceTests.UserAccountManagement
             };
 
         [Then]
-        public void Then_a_AdminAccountChangedPasswordEvent_will_be_published()
+        public void Then_a_CustomerAccountChangedPasswordEvent_will_be_published()
         {
-            PublishedEvents.Last().As<AdminAccountChangedPasswordEvent>().AggregateId.Should().Be(_UserId);
-            PublishedEvents.Last().As<AdminAccountChangedPasswordEvent>().NewPassword.ToString().Should().NotBeNullOrEmpty();
-            PublishedEvents.Last().As<AdminAccountChangedPasswordEvent>().NewPassword.ToString().Should().NotBe(_NewPlainPassword);
-            PublishedEvents.Last().As<AdminAccountChangedPasswordEvent>().NewPassword.ToString().Should().NotBe(_CurrentPassword);
+            PublishedEvents.Last().As<CustomerAccountChangedPasswordEvent>().AggregateId.Should().Be(_UserId);
+            PublishedEvents.Last().As<CustomerAccountChangedPasswordEvent>().NewPassword.ToString().Should().NotBeNullOrEmpty();
+            PublishedEvents.Last().As<CustomerAccountChangedPasswordEvent>().NewPassword.ToString().Should().NotBe(_NewPlainPassword);
+            PublishedEvents.Last().As<CustomerAccountChangedPasswordEvent>().NewPassword.ToString().Should().NotBe(_CurrentPassword);
         }
     }
 }
