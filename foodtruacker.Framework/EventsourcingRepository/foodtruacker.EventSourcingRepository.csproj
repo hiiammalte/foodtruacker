@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,8 +10,8 @@
     <PackageReference Include="EventStore.Client.Grpc.ProjectionManagement" Version="20.10.0" />
     <PackageReference Include="EventStore.Client.Grpc.Streams" Version="20.10.0" />
     <PackageReference Include="EventStore.Client.Grpc.UserManagement" Version="20.10.0" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.35.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
