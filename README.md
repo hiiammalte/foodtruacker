@@ -210,10 +210,10 @@ dotnet restore
 4. Still at the root directory, start Docker Containers from YAML file by running:
 
 ```
-docker-compose
+docker compose up
 ```
 
-5. Navigate into the `\foodtruacker.Framework\Authentication` directory and run the following command:
+5. Navigate into the `\foodtruacker.Framework\Authentication` directory and run the following command in the package manager console:
 
 ```
 dotnet ef database update
