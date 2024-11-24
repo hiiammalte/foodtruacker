@@ -12,12 +12,11 @@ namespace foodtruacker.API.Extensions
     {
         public static IServiceCollection AddEventStoreDbService(this IServiceCollection services, EventStoreDbSettings settings)
         {
-
             var eventStoreClientSettings = new EventStoreClientSettings
             {
                 ConnectivitySettings =
                 {
-                    Address = new Uri(settings.Uri)
+                    Address = new Uri($"{settings.Schema}{settings.Username}:{settings.Password}@{settings.Url}:{settings.Port}?tls={settings.Tls}&tlsVerifyCert={settings.TlsVerifyCert}")
                 },
                 DefaultCredentials = new UserCredentials(settings.Username, settings.Password),
                 CreateHttpMessageHandler = () =>

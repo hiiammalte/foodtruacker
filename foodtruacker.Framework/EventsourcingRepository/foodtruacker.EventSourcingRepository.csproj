@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EventStore.Client.Grpc" Version="20.10.0" />
+    <PackageReference Include="EventStore.Client.Grpc" Version="23.3.7" />
     <PackageReference Include="EventStore.Client.Grpc.Operations" Version="20.10.0" />
     <PackageReference Include="EventStore.Client.Grpc.ProjectionManagement" Version="20.10.0" />
-    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="20.10.0" />
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.7" />
     <PackageReference Include="EventStore.Client.Grpc.UserManagement" Version="20.10.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
