@@ -2,9 +2,6 @@
 using foodtruacker.EventSourcingRepository.Client;
 using foodtruacker.EventSourcingRepository.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
-using System.Net.Security;
 
 namespace foodtruacker.API.Extensions
 {
@@ -12,22 +9,8 @@ namespace foodtruacker.API.Extensions
     {
         public static IServiceCollection AddEventStoreDbService(this IServiceCollection services, EventStoreDbSettings settings)
         {
-            var eventStoreClientSettings = new EventStoreClientSettings
-            {
-                ConnectivitySettings =
-                {
-                    Address = new Uri($"{settings.Schema}{settings.Username}:{settings.Password}@{settings.Url}:{settings.Port}?tls={settings.Tls}&tlsVerifyCert={settings.TlsVerifyCert}")
-                },
-                DefaultCredentials = new UserCredentials(settings.Username, settings.Password),
-                CreateHttpMessageHandler = () =>
-                new SocketsHttpHandler
-                {
-                    SslOptions = new SslClientAuthenticationOptions
-                    {
-                        RemoteCertificateValidationCallback = delegate { return true; }
-                    }
-                }
-            };
+            string connectionString = $"{settings.Schema}{settings.Username}:{settings.Password}@{settings.Url}:{settings.Port}?tls={settings.Tls}&tlsVerifyCert={settings.TlsVerifyCert}";
+            var eventStoreClientSettings = EventStoreClientSettings.Create(connectionString);
 
             services.AddSingleton(_ => new EventStoreClient(eventStoreClientSettings)).BuildServiceProvider();
             services.AddScoped<IEventSourcingClient, EventStoreDbClient>();
