@@ -13,7 +13,7 @@ Since the fictional business case intoduced to this project is heavily event-dri
 
 ## Features
 
-- ASP.NET Core 5.0 Web API application
+- ASP.NET Core 9.0 Web API application
 - Clean Architecture implementation with applying SOLID principles
 - Domain-driven Design (DDD)
 - xUnit-based Test-driven Design (TDD)
@@ -193,8 +193,8 @@ To get this project up and running as is, feel free to follow these steps:
 
 ### Prerequisites
 
-- Install the .NET 5 or above SDK
-- Install Visual Studio 2019 v16.x or above
+- Install the .NET 9 or above SDK
+- Install Visual Studio 2022 v17.x or above
 - Install Docker Desktop
 
 ### Setup
@@ -249,6 +249,13 @@ dotnet run
 11. You are all set. Login next.
 
 12. Launch http://localhost:2113/ in your browser to view the EventStoreDB GUI. Open the "Stream Browser" tab to see all stored events.
+
+13. Tests can be executed by running:
+
+```
+dotnet test
+```
+
 
 ## Technologies
 
