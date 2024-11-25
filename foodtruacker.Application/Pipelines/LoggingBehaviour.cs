@@ -15,7 +15,7 @@ namespace foodtruacker.Application.Pipelines
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var currentUser = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
 

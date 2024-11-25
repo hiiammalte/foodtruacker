@@ -14,7 +14,7 @@ namespace foodtruacker.Application.Pipelines
         {
             _logger = logger;
         }
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var stopwatch = Stopwatch.StartNew();
 

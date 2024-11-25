@@ -44,7 +44,7 @@ namespace foodtruacker
             services.AddMongoDbService(Configuration.GetSection("MongoDb").Get<MongoDbSettings>());
             services.AddEmailService();
 
-            services.AddMediatR(typeof(AdminAccountCreateCommand).GetTypeInfo().Assembly);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AdminAccountCreateCommand).Assembly));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(MetricsBehaviour<,>));
 
